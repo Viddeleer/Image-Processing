@@ -8,8 +8,11 @@ The original algorithm is sped up by applying 3 optimizations:
 
 The algorithm works for both upscaling and downscaling.
 
+```
 Usage:
 
 unsigned char *outputbuffer = ResizeMagicKernelSharp2021MultiThreaded(inputbuffer, inputwidth, inputheight, inputchannels, outputwidth, outputheight, outputchannels, nrofthreads);
+```
+
 
 
