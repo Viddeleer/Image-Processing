@@ -62,8 +62,7 @@ struct ThreadParams
 	int dst_h;
 	int dst_c;
 	int from;
-	int to;
-	int curthread;
+	int to;	
 } ThreadParameters[MAXTHREADS];			
 
 void WINAPI ResizeImageMagicKernelSharp2021Thread(LPVOID lpParameters)
@@ -193,6 +192,7 @@ int curthread = 0;
 unsigned char *dst;
 HANDLE threadhandles[MAXTHREADS];
 
+	// input sanity checks
 	if (!src) return NULL;
 	if (!src_w || !src_h || !src_c || !dst_w || !dst_h || !dst_c) return NULL;
 	dst = (unsigned char *)malloc(dst_w * dst_h * dst_c);
@@ -202,9 +202,7 @@ HANDLE threadhandles[MAXTHREADS];
 
 	if (nrthreads < 2) nrthreads = 1;
 	else if (nrthreads > MAXTHREADS) nrthreads = MAXTHREADS;
-
-	//ThreadFinished = 0;
-
+	
 	if (nrthreads == 1)	// Single thread
 	{
 		ThreadParameters[0].src = src;
@@ -216,8 +214,7 @@ HANDLE threadhandles[MAXTHREADS];
 		ThreadParameters[0].dst_h = dst_h;
 		ThreadParameters[0].dst_c = dst_c;
 		ThreadParameters[0].from = (curthread * dst_h) ;
-		ThreadParameters[0].to = ((curthread + 1) * dst_h);
-		ThreadParameters[0].curthread = -1;
+		ThreadParameters[0].to = ((curthread + 1) * dst_h);		
 		ResizeImageMagicKernelSharp2021Thread((LPVOID)&ThreadParameters);
 	}
 	else				// Multithreaded version
@@ -233,8 +230,7 @@ HANDLE threadhandles[MAXTHREADS];
 			ThreadParameters[curthread].dst_h = dst_h;
 			ThreadParameters[curthread].dst_c = dst_c;
 			ThreadParameters[curthread].from = (curthread * dst_h) / nrthreads;
-			ThreadParameters[curthread].to = ((curthread + 1) * dst_h) / nrthreads;
-			ThreadParameters[curthread].curthread = curthread;
+			ThreadParameters[curthread].to = ((curthread + 1) * dst_h) / nrthreads;			
 			do
 			{
 				threadhandles[curthread] = CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)ResizeImageMagicKernelSharp2021Thread, (LPVOID)&ThreadParameters[curthread], 0, NULL);
@@ -243,8 +239,7 @@ HANDLE threadhandles[MAXTHREADS];
 		}
 		WaitForMultipleObjects(nrthreads, threadhandles, TRUE, INFINITE);
 
-		for (curthread = 0; curthread < nrthreads; curthread++) CloseHandle(threadhandles[curthread]);
-		//while (ThreadFinished != nrthreads);
+		for (curthread = 0; curthread < nrthreads; curthread++) CloseHandle(threadhandles[curthread]);		
 	}	
 	return dst;
 }
