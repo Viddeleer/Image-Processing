@@ -1,2 +1,2 @@
 # Image-Processing
-Image Processing algorithms
+Collection of Image Processing algorithms
