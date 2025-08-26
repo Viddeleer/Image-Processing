@@ -1,7 +1,9 @@
 # Fast Magic Kernel Sharp 2021
 Fast C/C++ Implementation of the Magic Kernel Sharp 2021 resizing algorithm by John Costella (), used by Facebook and Instagram.
 
-The original algorithm is sped-up by applying 3 tricks:
+The original algorithm is sped up by applying 3 optimizations:
 1. Using a lookup table
 2. Converting most float operations to integer arithmetic
 3. Using multithreading
+
+The algorithm works for both upscaling and downscaling.
