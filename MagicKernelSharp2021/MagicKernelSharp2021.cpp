@@ -2,7 +2,7 @@
 
 #define MAXTHREADS 64						// maximum 64 threads limit in windows
 
-#define MAGIC_KERNEL_RADIUS_2021 3
+#define MAGIC_KERNEL_RADIUS_2021 			3
 #define MAGIC_KERNEL_FAST_PRECISION_BITS	18
 #define MAGIC_KERNEL_FAST_PRECISION_FACTOR	(unsigned)(1<<MAGIC_KERNEL_FAST_PRECISION_BITS)
 #define MAGIC_KERNEL_FAST_PRECISION_MASK	MAGIC_KERNEL_FAST_PRECISION_FACTOR-1
@@ -12,13 +12,14 @@
 #define DIV_INT64_FAST(a, b)				(((int64_t)(a) << MAGIC_KERNEL_FAST_PRECISION_BITS) / (b))
 
 #define MAGIC_KERNEL_LUT_RES_BITS_FAST		9
-#define MAGIC_KERNEL_LUT_RES_FAST			(unsigned)(1<<MAGIC_KERNEL_LUT_RES_BITS_FAST)			// 512 for value 9
-#define MAGIC_KERNEL_LUT_SIZE_2021_FAST		((int)(MAGIC_KERNEL_RADIUS_2021 * MAGIC_KERNEL_LUT_RES_FAST + 1))
+#define MAGIC_KERNEL_LUT_RES_FAST			(unsigned)(1<<MAGIC_KERNEL_LUT_RES_BITS_FAST)							// 512 for value 9
+#define MAGIC_KERNEL_LUT_SIZE_2021_FAST		((int)(MAGIC_KERNEL_RADIUS_2021 * MAGIC_KERNEL_LUT_RES_FAST + 1))		// lookup table size
 
 static int   magic_kernel_lut_2021_INT_FAST[MAGIC_KERNEL_LUT_SIZE_2021_FAST];
 
 int MKS2021_INITIALIZED = 0;
 
+// Calculate the kernel
 static inline float magic_kernel_sharp_2021(float x)
 {
 	if (x < 0.0f) x = -x;
@@ -40,6 +41,7 @@ static inline float magic_kernel_sharp_2021(float x)
 	return result * scale;
 }
 
+// Initialize the lookup table
 static void init_magic_kernel_lut_2021_INT_FAST()
 {
 	if (MKS2021_INITIALIZED) return;
