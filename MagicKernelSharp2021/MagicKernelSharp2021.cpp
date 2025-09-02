@@ -2,7 +2,7 @@
 
 #define MAXTHREADS 64						// maximum 64 threads limit in windows
 
-#define MAGIC_KERNEL_RADIUS_2021 			3
+//#define MAGIC_KERNEL_RADIUS_2021 			3.5
 #define MAGIC_KERNEL_FAST_PRECISION_BITS	18
 #define MAGIC_KERNEL_FAST_PRECISION_FACTOR	(unsigned)(1<<MAGIC_KERNEL_FAST_PRECISION_BITS)
 #define MAGIC_KERNEL_FAST_PRECISION_MASK	MAGIC_KERNEL_FAST_PRECISION_FACTOR-1
@@ -13,32 +13,21 @@
 
 #define MAGIC_KERNEL_LUT_RES_BITS_FAST		9
 #define MAGIC_KERNEL_LUT_RES_FAST			(unsigned)(1<<MAGIC_KERNEL_LUT_RES_BITS_FAST)							// 512 for value 9
-#define MAGIC_KERNEL_LUT_SIZE_2021_FAST		((int)(MAGIC_KERNEL_RADIUS_2021 * MAGIC_KERNEL_LUT_RES_FAST + 1))		// lookup table size
+#define MAGIC_KERNEL_LUT_SIZE_2021_FAST		((int)(1 + 7 * MAGIC_KERNEL_LUT_RES_FAST / 2 ))							// lookup table size, MKS2021 kernel radius 3.5 = 7 /2
 
 static int   magic_kernel_lut_2021_INT_FAST[MAGIC_KERNEL_LUT_SIZE_2021_FAST];
 
 int MKS2021_INITIALIZED = 0;
 
-// Calculate the kernel
 static inline float magic_kernel_sharp_2021(float x)
 {
 	if (x < 0.0f) x = -x;
-	if (x >= 3.0f) return 0.0f;
+	if (x >= 3.5f) return 0.0f;  // compact support cutoff
 
-	static const float w[7] = { -1, 6, -35, 204, -35, 6, -1 };
-	static const float scale = 1.0f / 144.0f;
-
-	float result = 0.0f;
-	for (int i = -3; i <= 3; ++i)
-	{
-		float d = x - i;
-		if (d < 0.0f) d = -d;
-		float k = 0.0f;
-		if (d <= 1.0f)     k = 1.0f - (2.5f * d * d) + (1.5f * d * d * d);
-		else if (d < 2.0f) k = 0.5f * (2.0f - d) * (2.0f - d) * (1.0f - d);
-		result += w[i + 3] * k;
-	}
-	return result * scale;
+	if (x <= 0.5f) return (577.0f / 576.0f) - ((239.0f / 144.0f) * x * x);	
+	else if (x <= 1.5f) return (35.0f / 36.0f) * (x - 1.0f) * (x - (239.0f / 140.0f));	
+	else if (x <= 2.5f) return (1.0f / 6.0f) * (x - 2.0f) * ((65.0f / 24.0f) - x);
+	else return (1.0f / 36.0f) * (x - 3.0f) * (x - (15.0f / 4.0f));	
 }
 
 // Initialize the lookup table
@@ -48,6 +37,7 @@ static void init_magic_kernel_lut_2021_INT_FAST()
 	for (int i = 0; i < MAGIC_KERNEL_LUT_SIZE_2021_FAST; ++i) 
 	{
 		float x = (float)i / MAGIC_KERNEL_LUT_RES_FAST;
+		if (x >= 3.5f) x = 3.5f;
 		magic_kernel_lut_2021_INT_FAST[i] = (int)round(MAGIC_KERNEL_FAST_PRECISION_FACTOR * magic_kernel_sharp_2021(x));						
 	}
 	MKS2021_INITIALIZED = 1;
@@ -97,8 +87,8 @@ void WINAPI ResizeImageMagicKernelSharp2021Thread(LPVOID lpParameters)
 	int scale_x = (x_ratio > 65536) ? x_ratio : 65536;
 	int scale_y = (y_ratio > 65536) ? y_ratio : 65536;
 
-	int radius_x = 1 + ((MAGIC_KERNEL_RADIUS_2021 * scale_x) >> 16); // ceil
-	int radius_y = 1 + ((MAGIC_KERNEL_RADIUS_2021 * scale_y) >> 16); // ceil
+	int radius_x = 1 + (( (7 * scale_x) / 2) >> 16); // ceil, kernel radius 7/2 = 3.5
+	int radius_y = 1 + (( (7 * scale_y) / 2) >> 16); // ceil
 
 	for (dy = from; dy < to; ++dy)
 	{
@@ -217,7 +207,7 @@ HANDLE threadhandles[MAXTHREADS];
 		ThreadParameters[0].dst_c = dst_c;
 		ThreadParameters[0].from = (curthread * dst_h) ;
 		ThreadParameters[0].to = ((curthread + 1) * dst_h);		
-		ResizeImageMagicKernelSharp2021Thread((LPVOID)&ThreadParameters);
+		ResizeImageMagicKernelSharp2021Thread((LPVOID)&ThreadParameters[0]);
 	}
 	else				// Multithreaded version
 	{
