@@ -16,4 +16,4 @@ unsigned char *outputbuffer = ResizeMagicKernelSharp2021MultiThreaded(inputbuffe
 
 where input/outputchannels=3 for RGB images and input/outputchannels=4 for RGBA images (not fully implemented yet, see source code comments).
 
-
+*CAUTION* Work in progress, the calculations do not match the original exactly 
