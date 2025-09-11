@@ -141,7 +141,6 @@ void WINAPI ResizeImageMagicKernelSharp2021Thread(LPVOID lpParameters)
 
 static inline float srgb_to_linear(float s)  // s in [0,1]
 {
-
 	if (s <= 0.04045f) return s / 12.92f;
 	return powf((s + 0.055f) / 1.055f, 2.4f);
 }
@@ -239,4 +238,5 @@ unsigned i, insize, outsize;
 		dst[i] = (fval < 0) ? 0 : ((fval > 255) ? 255 : fval);
 	}
 	return dst;
+
 }
