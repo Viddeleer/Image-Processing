@@ -5,7 +5,7 @@
 static inline double magic_kernel_sharp_2021(double x)			// original
 {
 	if (x < 0.0) x = -x;	
-	if (x <= 0.5)      return (577.0 / 576.0) - (239.0 / 144.0) * x * x;
+	if      (x <= 0.5) return (577.0 / 576.0) - (239.0 / 144.0) * x * x;
 	else if (x <= 1.5) return (1.0 / 144.0) * (140.0 * x * x - 379.0 * x + 239.0);
 	else if (x <= 2.5) return -(1.0 / 144.0) * (24.0 * x * x - 113.0 * x + 130.0);
 	else if (x <= 3.5) return (1.0 / 144.0) * (4.0 * x * x - 27.0 * x + 45.0);
@@ -240,4 +240,5 @@ unsigned i, insize, outsize;
 	return dst;
 
 }
+
 
