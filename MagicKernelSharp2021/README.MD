@@ -9,7 +9,9 @@ The algorithm is sped up by multithreading. Other possible optimizations like us
 Usage:
 
 unsigned char *outputbuffer = ResizeMagicKernelSharp2021MultiThreaded(inputbuffer, inputwidth, inputheight, inputchannels, outputwidth, outputheight, outputchannels, nrofthreads);
-<BR>
+
+Example:
+outputbuffer = ResizeMagicKernelSharp2021MultiThreaded(inputbuffer, 9, 9, 3, 900, 900, 3, 6);
 ```
 
 where input/outputchannels=3 for RGB images and input/outputchannels=4 for RGBA images (not fully implemented yet).
