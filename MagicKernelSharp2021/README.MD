@@ -11,6 +11,7 @@ Usage:
 unsigned char *outputbuffer = ResizeMagicKernelSharp2021MultiThreaded(inputbuffer, inputwidth, inputheight, inputchannels, outputwidth, outputheight, outputchannels, nrofthreads);
 
 Example:
+
 outputbuffer = ResizeMagicKernelSharp2021MultiThreaded(inputbuffer, 9, 9, 3, 900, 900, 3, 6);
 ```
 
