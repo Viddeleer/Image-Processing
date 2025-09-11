@@ -82,7 +82,7 @@ void WINAPI ResizeImageMagicKernelSharp2021Thread(LPVOID lpParameters)
 			double sum_a = 0.0;
 			double wsum = 0.0;
 
-			int isedge = 0;
+			//int isedge = 0;
 
 			// iterate over contributing source pixels
 			for (int ky = -radius_y; ky <= radius_y; ++ky)
@@ -240,5 +240,6 @@ unsigned i, insize, outsize;
 	return dst;
 
 }
+
 
 
