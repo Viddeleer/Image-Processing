@@ -13,12 +13,13 @@ unsigned char *outputbuffer = ResizeMagicKernelSharp2021MultiThreaded(inputbuffe
 
 where input/outputchannels=3 for RGB images and input/outputchannels=4 for RGBA images (not fully implemented yet).
 
+Input (9x9 pixels):
 ![Input](https://github.com/Viddeleer/Image-Processing/blob/main/MagicKernelSharp2021/images/mks-2021-input.png)
 
+Output (resized to 900x900 pixels):
+![Output](https://github.com/Viddeleer/Image-Processing/blob/main/MagicKernelSharp2021/images/mks-2021-output.PNG)
 
-![Output](https://github.com/Viddeleer/Image-Processing/blob/main/MagicKernelSharp2021/images/mks-2021-output.png)
-
-For comparison, the output by ImageMagick:
+For comparison, the 900x900 output by ImageMagick:
 
 magick mks-2021-input.png -colorspace RGB -filter MagicKernelSharp2021 -resize 900x900 -colorspace sRGB -dither none mks-2021-magick_output.png
 
