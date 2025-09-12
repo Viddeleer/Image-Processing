@@ -196,8 +196,7 @@ unsigned i, insize, outsize;
 		ThreadParameters[0].dst_h = dst_h;
 		ThreadParameters[0].dst_c = dst_c;
 		ThreadParameters[0].from = (curthread * dst_h) ;
-		ThreadParameters[0].to = ((curthread + 1) * dst_h);
-		ThreadParameters[0].curthread = -1;
+		ThreadParameters[0].to = ((curthread + 1) * dst_h);		
 		ResizeImageMagicKernelSharp2021Thread((LPVOID)&ThreadParameters);
 	}
 	else				// Multithreaded version
@@ -213,8 +212,7 @@ unsigned i, insize, outsize;
 			ThreadParameters[curthread].dst_h = dst_h;
 			ThreadParameters[curthread].dst_c = dst_c;
 			ThreadParameters[curthread].from = (curthread * dst_h) / nrthreads;
-			ThreadParameters[curthread].to = ((curthread + 1) * dst_h) / nrthreads;
-			ThreadParameters[curthread].curthread = curthread;
+			ThreadParameters[curthread].to = ((curthread + 1) * dst_h) / nrthreads;			
 			do
 			{
 				threadhandles[curthread] = CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)ResizeImageMagicKernelSharp2021Thread, (LPVOID)&ThreadParameters[curthread], 0, NULL);
@@ -240,6 +238,7 @@ unsigned i, insize, outsize;
 	return dst;
 
 }
+
 
 
 
