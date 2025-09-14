@@ -89,7 +89,7 @@ void WINAPI ResizeImageMagicKernelSharp2013Thread(LPVOID lpParameters)
 				if ((unsigned)sy >= (unsigned)src_h) { /*isedge = 1; */continue; }
 
 				// distance in Y between sample pos and that row
-				double dy_dist = fabs(frac_y - (double)ky);
+				double dy_dist = fabs(frac_y - (double)ky) / scale_y;
 				if (dy_dist >= 2.5) continue;
 				double wy = magic_kernel_sharp_2013(dy_dist);
 
@@ -98,7 +98,7 @@ void WINAPI ResizeImageMagicKernelSharp2013Thread(LPVOID lpParameters)
 					int sx = ix + kx;
 					if ((unsigned)sx >= (unsigned)src_w) {/* isedge = 1;*/ continue; }
 
-					double dx_dist = fabs(frac_x - (double)kx);
+					double dx_dist = fabs(frac_x - (double)kx) / scale_x;
 					if (dx_dist >= 2.5) continue;
 					double wx = magic_kernel_sharp_2013(dx_dist);
 
@@ -236,3 +236,4 @@ unsigned i, insize, outsize;
 	return dst;
 
 }
+
