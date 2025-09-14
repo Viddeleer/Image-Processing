@@ -196,7 +196,6 @@ unsigned i, insize, outsize;
 		ThreadParameters[0].dst_c = dst_c;
 		ThreadParameters[0].from = (curthread * dst_h) ;
 		ThreadParameters[0].to = ((curthread + 1) * dst_h);
-		ThreadParameters[0].curthread = -1;
 		ResizeImageMagicKernelSharp2013Thread((LPVOID)&ThreadParameters);
 	}
 	else				// Multithreaded version
@@ -213,7 +212,6 @@ unsigned i, insize, outsize;
 			ThreadParameters[curthread].dst_c = dst_c;
 			ThreadParameters[curthread].from = (curthread * dst_h) / nrthreads;
 			ThreadParameters[curthread].to = ((curthread + 1) * dst_h) / nrthreads;
-			ThreadParameters[curthread].curthread = curthread;
 			do
 			{
 				threadhandles[curthread] = CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)ResizeImageMagicKernelSharp2013Thread, (LPVOID)&ThreadParameters[curthread], 0, NULL);
@@ -236,4 +234,5 @@ unsigned i, insize, outsize;
 		dst[i] = (fval < 0) ? 0 : ((fval > 255) ? 255 : fval);
 	}
 	return dst;
+
 }
