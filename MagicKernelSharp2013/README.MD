@@ -21,7 +21,7 @@ where input/outputchannels=3 for RGB images and input/outputchannels=4 for RGBA 
 ![Input](https://github.com/Viddeleer/Image-Processing/blob/main/MagicKernelSharp2013/images/mks-2013-input.png)
 
 **Output image (resized to 500x500 pixels):**<BR>
-![Output](https://github.com/Viddeleer/Image-Processing/blob/main/MagicKernelSharp2013/images/mks-2013-output.PNG)
+![Output](https://github.com/Viddeleer/Image-Processing/blob/main/MagicKernelSharp2013/images/mks-2013-output.png)
 
 **For comparison, the 500x500 output image by ImageMagick:**<BR>
 ```
