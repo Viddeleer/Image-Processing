@@ -22,7 +22,7 @@ struct ThreadParams
 	int dst_c;
 	int from;
 	int to;	
-} ThreadParameters[MAXTHREADS];			// maximum 64 threads limit in windows
+} ThreadParameters[MAXTHREADS];			
 
 void WINAPI ResizeImageMagicKernelClassicThread(LPVOID lpParameters)
 {
@@ -102,7 +102,7 @@ void WINAPI ResizeImageMagicKernelClassicThread(LPVOID lpParameters)
 					double wx = magic_kernel_classic(dx_dist);
 
 					double w = wx * wy;
-					if (w == 0.0) { continue; }				// MessageBox(NULL, "is zero", "debug", MB_OK); 
+					if (w == 0.0) { continue; }				
 
 					int pixel_index = (sy * src_w + sx) * src_c;
 
@@ -234,3 +234,4 @@ unsigned char* ResizeImageMagicKernelClassicMultiThreaded(unsigned char* src, in
 	}
 	return dst;
 }
+
