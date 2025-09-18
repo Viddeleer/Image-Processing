@@ -235,9 +235,14 @@ unsigned i, insize, outsize;
 		fval = tmpout[i];
 		dst[i] = (fval < 0) ? 0 : ((fval > 255) ? 255 : fval);
 	}
+		
+	if (tmpin) free(tmpin);
+	if (tmpout) free(tmpout);
+	
 	return dst;
 
 }
+
 
 
 
