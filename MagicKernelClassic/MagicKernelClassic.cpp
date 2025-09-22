@@ -6,8 +6,8 @@ static inline double magic_kernel_classic(double x)
 {
 	if      (x < 0.0)  x = -x;
 	if      (x <= 0.5) return(0.75 - (x * x));
-	else if (x < 1.5) return(0.5 * (x - 1.5) * (x - 1.5));
-	else return (0.0);
+	else if (x < 1.5)  return(0.5 * (x - 1.5) * (x - 1.5));
+	else return 0.0;
 }
 
 struct ThreadParams
@@ -238,6 +238,7 @@ unsigned char* ResizeImageMagicKernelClassicMultiThreaded(unsigned char* src, in
 	
 	return dst;
 }
+
 
 
 
