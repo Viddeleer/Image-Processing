@@ -2,12 +2,12 @@
 
 #define MAXTHREADS 64						// maximum 64 threads limit in windows
 
-static inline float magic_kernel_classic(float x) 
+static inline double magic_kernel_classic(double x) 
 {
-	if      (x < 0.0f)  x = -x;
-	if      (x <= 0.5f) return(0.75f - (x * x));
-	else if (x < 1.5f) return(0.5f * (x - 1.5f) * (x - 1.5f));
-	else return(0.0f);
+	if      (x < 0.0)  x = -x;
+	if      (x <= 0.5) return(0.75 - (x * x));
+	else if (x < 1.5) return(0.5 * (x - 1.5) * (x - 1.5));
+	else return (0.0);
 }
 
 struct ThreadParams
@@ -238,5 +238,6 @@ unsigned char* ResizeImageMagicKernelClassicMultiThreaded(unsigned char* src, in
 	
 	return dst;
 }
+
 
 
