@@ -8,7 +8,7 @@ static inline double magic_kernel_sharp_2013(double x)
 	if      (x <= 0.5) return 17.0 / 16.0 - (7.0 / 4.0) * x * x; 
 	else if (x <= 1.5) return 0.25 * (4.0 * x * x - 11.0 * x + 7.0); 
 	else if (x <= 2.5) return -0.125 * (x - 2.5) * (x - 2.5);   
-	else    return 0.0;	
+	else return 0.0;	
 }
 
 struct ThreadParams
@@ -240,5 +240,6 @@ unsigned i, insize, outsize;
 	return dst;
 
 }
+
 
 
