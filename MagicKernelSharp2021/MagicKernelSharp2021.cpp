@@ -105,8 +105,7 @@ void WINAPI ResizeImageMagicKernelSharp2021Thread(LPVOID lpParameters)
 					double wx = magic_kernel_sharp_2021(dx_dist);
 
 					double w = wx * wy;
-					if (w == 0.0) continue;
-
+					
 					int pixel_index = (sy * src_w + sx) * src_c;
 					
 					sum_r += src[pixel_index++] * w;
@@ -124,10 +123,11 @@ void WINAPI ResizeImageMagicKernelSharp2021Thread(LPVOID lpParameters)
 			if (wsum > 0.0)
 			{								
 					// normalize				
-					dst[idx++] = (float)(sum_r / wsum);
-					dst[idx++] = (float)(sum_g / wsum);
-					dst[idx++] = (float)(sum_b / wsum);
-					if (dst_c >= 4) dst[idx] = (float)(sum_a / wsum);			
+					wsum = 1.0 / wsum;							
+					dst[idx++] = (float)(sum_r * wsum);
+					dst[idx++] = (float)(sum_g * wsum);
+					dst[idx++] = (float)(sum_b * wsum);
+					if (dst_c >= 4) dst[idx] = (float)(sum_a * wsum);			
 			}
 			else
 			{
@@ -242,6 +242,7 @@ unsigned i, insize, outsize;
 	return dst;
 
 }
+
 
 
 
