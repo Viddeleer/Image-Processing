@@ -102,8 +102,7 @@ void WINAPI ResizeImageMagicKernelClassicThread(LPVOID lpParameters)
 					double wx = magic_kernel_classic(dx_dist);
 
 					double w = wx * wy;
-					if (w == 0.0) { continue; }				
-
+					
 					int pixel_index = (sy * src_w + sx) * src_c;
 
 					// accumulate as double for better precision
@@ -122,10 +121,11 @@ void WINAPI ResizeImageMagicKernelClassicThread(LPVOID lpParameters)
 			if (wsum > 0.0)
 			{
 				// normalize				
-				dst[idx++] = (float)(sum_r / wsum);
-				dst[idx++] = (float)(sum_g / wsum);
-				dst[idx++] = (float)(sum_b / wsum);
-				if (dst_c >= 4) dst[idx] = (float)(sum_a / wsum);
+				wsum = 1.0 / wsum;							
+				dst[idx++] = (float)(sum_r * wsum);
+				dst[idx++] = (float)(sum_g * wsum);
+				dst[idx++] = (float)(sum_b * wsum);
+				if (dst_c >= 4) dst[idx] = (float)(sum_a * wsum);
 			}
 			else
 			{
@@ -238,6 +238,7 @@ unsigned char* ResizeImageMagicKernelClassicMultiThreaded(unsigned char* src, in
 	
 	return dst;
 }
+
 
 
 
