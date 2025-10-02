@@ -3,7 +3,7 @@ Simple C/C++ Implementation of the Magic Kernel Sharp 2021 resizing algorithm by
 
 Before resizing, images are converted from sRGB to linear color space, and converted back to sRGB after resizing.
 
-The algorithm is sped up by multithreading. Other possible optimizations like using separate filter steps, a lookup table or using integer arithmetic are not implemented (yet?)
+The algorithm is sped up by multithreading. I also added a slightly optimized version (MagicKernelSharp2021_LUT.cpp), that uses lookup tables for the MKS2021 kernel and srgb-to-linear conversion, roughly resulting in another 25% speed increase. Other possible optimizations like using separate filter steps or using integer arithmetic are not implemented (yet?)
 
 ```C++
 Usage:
