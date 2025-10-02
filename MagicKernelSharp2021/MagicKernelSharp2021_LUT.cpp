@@ -1,8 +1,8 @@
 #include <math.h>
 
-#define MAXTHREADS 64						// maximum 64 threads limit in windows
-#define MKS2021_LUT_RES		2000
-#define MKS2021_LUT_SIZE	(9*MKS2021_LUT_RES/2)+2				// 9/2 == 4.5
+#define MAXTHREADS 64						                    // maximum 64 threads limit in windows
+#define MKS2021_LUT_RES		2000                                // kernel lookup table resolution 
+#define MKS2021_LUT_SIZE	(9*MKS2021_LUT_RES/2)+2				// kernel lookup table size   ( 9/2 == 4.5 )
 
 double		MKS_2021_LUT[MKS2021_LUT_SIZE];
 unsigned	MKS2021_LUT_INITIALIIZED = 0;
@@ -50,8 +50,8 @@ inline void initialize_MKS2021_LUT()
 {
 	if (MKS2021_LUT_INITIALIIZED == 0)
 	{
-		for (unsigned i = 0; i < MKS2021_LUT_SIZE; i++)	MKS_2021_LUT[i] = magic_kernel_sharp_2021((double)i / MKS2021_LUT_RES);		
-		for (int i = 0; i < 256; i++) srgb_to_linear_lut[i] = srgb_to_linear(i / 255.0);
+		for (unsigned i = 0; i < MKS2021_LUT_SIZE; i++)	MKS_2021_LUT[i] = magic_kernel_sharp_2021((double)i / MKS2021_LUT_RES);		// initialize MKS2021 kernel lookup table
+		for (int i = 0; i < 256; i++) srgb_to_linear_lut[i] = srgb_to_linear(i / 255.0);                                            // initialize srgb-to-linear lookup table
 		MKS2021_LUT_INITIALIIZED = 1;
 	}
 }	
@@ -254,6 +254,7 @@ unsigned char* ResizeImageMagicKernelSharp2021MultiThreaded_LUT(unsigned char* s
 
 	return dst;
 }
+
 
 
 
